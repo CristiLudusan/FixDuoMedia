@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ro" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIXDUOMEDIA | Producție Foto & Video Evenimente</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <!-- Font-Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#08080a] text-gray-100 antialiased selection:bg-white selection:text-black">
+
+    <!-- CUSTOM CURSOR -->
+    <div id="custom-cursor-dot"></div>
+    <div id="custom-cursor-ring"><span id="cursor-text"></span></div>
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="scroll-progress"></div>
+
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-[#08080a]/80 backdrop-blur-md border-b border-white/5 py-4 px-6 md:px-12 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <a href="#" class="flex items-center group cursor-hover" data-cursor="FIX">
+                <img src="./images/fdmsalb.png" alt="FIXDUOMEDIA Logo" class="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+            </a>
+
+            <div class="hidden lg:flex items-center space-x-8 text-xs font-semibold uppercase tracking-widest text-gray-300">
+                <a href="#acasa" class="hover:text-white transition-colors cursor-hover" data-cursor="HOME">Acasă</a>
+                <a href="#despre" class="hover:text-white transition-colors cursor-hover" data-cursor="ABOUT">Echipament</a>
+                <a href="#servicii" class="hover:text-white transition-colors cursor-hover" data-cursor="SERVICES">Servicii</a>
+                <a href="#portofoliu" class="hover:text-white transition-colors cursor-hover" data-cursor="WORK">Munca Noastră</a>
+                <a href="#preturi" class="hover:text-white transition-colors cursor-hover" data-cursor="CALC">Pachete & Buget</a>
+                <a href="#contact" class="hover:text-white transition-colors cursor-hover" data-cursor="CONTACT">Contact</a>
+            </div>
+
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="#contact" class="btn-brand text-xs font-bold cursor-hover" data-cursor="BOOK">
+                    <i class="fa-solid fa-calendar-check"></i> Verifică Dată
+                </a>
+            </div>
+
+            <button id="menu-toggle" class="lg:hidden text-2xl text-white focus:outline-none hover:text-gray-300 transition-colors cursor-hover" aria-label="Meniu">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden lg:hidden flex-col bg-[#111116] border-b border-white/20 px-6 py-6 mt-4 rounded-xl space-y-4 shadow-2xl">
+            <a href="#acasa" class="mobile-link text-white font-semibold py-2 border-b border-white/5">Acasă</a>
+            <a href="#despre" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Echipă & Echipamente</a>
+            <a href="#servicii" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Servicii</a>
+            <a href="#portofoliu" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Munca Noastră</a>
+            <a href="#preturi" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Pachete & Calculator</a>
+            <a href="#contact" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Contact</a>
+            <a href="#contact" class="btn-brand text-center text-xs justify-center mt-2">
+                Solicită Disponibilitate
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="acasa" class="relative min-h-screen hero-bg flex items-center justify-center pt-28 pb-16 px-6 overflow-hidden">
+        
+        <div class="absolute top-28 left-6 md:left-12 flex items-center gap-4 z-20">
+            <div class="rec-badge">
+                <span class="rec-dot"></span>
+                REC • 4K DCI 24FPS
+            </div>
+        </div>
+
+        <div class="max-w-6xl mx-auto text-center z-10 space-y-8 mt-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-black/60 text-gray-300 text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
+                <i class="fa-solid fa-film text-white"></i> FOTO/VIDEO • Evenimente
+            </div>
+
+            <h1 class="text-4xl md:text-7xl lg:text-8xl font-black font-syne uppercase tracking-tight text-white leading-none">
+                Capturăm <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-500 text-glow">
+                    Emoția Pură
+                </span>
+            </h1>
+
+            <p class="text-gray-300 text-base md:text-xl max-w-3xl mx-auto font-light leading-relaxed">
+                Suntem o echipă de tineri la început de drum, plini de energie și pasiune pentru imagine. Aducem o perspectivă proaspătă și modernă în cadrul fiecărui eveniment!
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 pt-4">
+                <a href="#portofoliu" class="btn-brand text-sm tracking-wider uppercase w-full sm:w-auto cursor-hover" data-cursor="VIEW">
+                    <i class="fa-solid fa-play"></i> Vezi Munca Noastră
+                </a>
+                <a href="#preturi" class="btn-outline text-sm tracking-wider uppercase w-full sm:w-auto cursor-hover" data-cursor="CALC">
+                    <i class="fa-solid fa-calculator"></i> Calculator Buget
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ECHIPĂ ȘI ECHIPAMENTE -->
+    <section id="despre" class="py-28 px-6 relative bg-[#08080a] border-t border-white/5">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="rec-badge">
+                        <span class="rec-dot"></span> Cine Suntem
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-black font-syne uppercase tracking-tight">
+                        Tineri, Dinamici & <br>
+                        <span class="text-white">Pasionați de Imagine</span>
+                    </h2>
+                    <p class="text-gray-400 text-sm md:text-base leading-relaxed">
+                        Suntem o echipă de tineri la început de drum, aducând entuziasm, idei proaspete și o viziune modernă pentru fiecare cadru. Ne concentrăm pe momente autentice, trăite din plin, fără cadre rigide sau forțate.
+                    </p>
+                </div>
+
+                <div class="fix-card p-8 border-white/20">
+                    <h3 class="text-xl font-bold font-syne uppercase text-white mb-4">Viziunea Noastră</h3>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Fiecare poveste merită spusă într-un mod unic. Ne adaptăm fiecărui eveniment cu echipamente dedicate și cu dorința continuă de a depăși așteptările, punând accent pe calitate, detalii și un stil cinematografic curat.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ECHIPAMENTE -->
+            <div class="space-y-8 pt-8 border-t border-white/10">
+                <div class="text-center max-w-2xl mx-auto space-y-2">
+                    <span class="text-xs uppercase font-bold text-gray-400 tracking-widest"><i class="fa-solid fa-sliders text-white mr-1"></i> Echipamentul Nostru</span>
+                    <h3 class="text-2xl md:text-4xl font-black font-syne uppercase text-white">Compoziția Echipamentului Nostru</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="fix-card p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-white mb-4 text-xl">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <h4 class="text-lg font-bold font-syne text-white mb-2">Kit Video Lumix</h4>
+                            <ul class="space-y-2 text-xs text-gray-300">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Camera Video Panasonic Lumix GH4</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Stabilizator Video Moza Aircross 2</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Microfon Boya</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="fix-card p-6 flex flex-col justify-between border-white/40">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-white mb-4 text-xl">
+                                <i class="fa-solid fa-clapperboard"></i>
+                            </div>
+                            <h4 class="text-lg font-bold font-syne text-white mb-2">Kit Cinema Blackmagic</h4>
+                            <ul class="space-y-2 text-xs text-gray-300">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Blackmagic Cinema Pocket Camera 6k</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Stabilizator DJI RONIN S</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Microfon Rode</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="fix-card p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-white mb-4 text-xl">
+                                <i class="fa-solid fa-camera"></i>
+                            </div>
+                            <h4 class="text-lg font-bold font-syne text-white mb-2">Kit Foto Sony</h4>
+                            <ul class="space-y-2 text-xs text-gray-300">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Camera Foto Sony A7 III</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-white"></i> Obiective Profesionale High-Resolution</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICII -->
+    <section id="servicii" class="py-28 px-6 bg-[#111116]/40 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <span class="text-white text-xs uppercase tracking-widest font-bold">Servicii Offerite</span>
+                <h2 class="text-3xl md:text-5xl font-black font-syne uppercase">Ce Îți Oferim</h2>
+                <div class="w-12 h-1 bg-white mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="fix-card p-8 flex flex-col justify-between space-y-6 cursor-hover" data-cursor="FOTO">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-2xl mb-6">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold font-syne mb-3">Fotografie Evenimente</h3>
+                        <p class="text-gray-400 text-sm mb-6">
+                            Cadre speciale surprinse pe parcursul întregului eveniment cu echipamentul foto Sony A7 III.
+                        </p>
+                    </div>
+                    <a href="#contact" class="btn-outline text-xs text-center justify-center">Cere Ofertă Foto</a>
+                </div>
+
+                <div class="fix-card p-8 flex flex-col justify-between space-y-6 border-white/40 relative bg-[#111116] cursor-hover" data-cursor="VIDEO">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-2xl mb-6">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold font-syne mb-3">Filmare 6K / 4K Cinema</h3>
+                        <p class="text-gray-400 text-sm mb-6">
+                            Producție video dinamică realizată cu rig-urile noastre cinematografice Blackmagic 6K și Panasonic Lumix.
+                        </p>
+                    </div>
+                    <a href="#contact" class="btn-brand text-xs text-center justify-center">Cere Ofertă Video</a>
+                </div>
+
+                <div class="fix-card p-8 flex flex-col justify-between space-y-6 cursor-hover" data-cursor="PACKAGE">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white text-2xl mb-6">
+                            <i class="fa-solid fa-photo-film"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold font-syne mb-3">Pachet Complet Foto-Video</h3>
+                        <p class="text-gray-400 text-sm mb-6">
+                            Acoperire completă cu echipa întreagă pentru nunți, majorate, botezuri și petreceri private.
+                        </p>
+                    </div>
+                    <a href="#contact" class="btn-outline text-xs text-center justify-center">Alege Pachetul Full</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MUNCA NOASTRĂ -->
+    <section id="portofoliu" class="py-28 px-6 relative border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+                <span class="text-white text-xs uppercase tracking-widest font-bold">Galerie Selectată</span>
+                <h2 class="text-3xl md:text-5xl font-black font-syne uppercase">Munca Noastră</h2>
+                <div class="w-12 h-1 bg-white mx-auto"></div>
+            </div>
+
+            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
+                    <img src="./images/Majorat Daniela 01.jpg" alt="Majorat Daniela 01" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
+                        <h4 class="text-xl font-bold font-syne text-white">Cadru 01</h4>
+                    </div>
+                </div>
+
+                <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
+                    <img src="./images/Majorat Daniela 02.jpg" alt="Majorat Daniela 02" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
+                        <h4 class="text-xl font-bold font-syne text-white">Cadru 02</h4>
+                    </div>
+                </div>
+
+                <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
+                    <img src="./images/Majorat Daniela 03.jpg" alt="Majorat Daniela 03" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
+                        <h4 class="text-xl font-bold font-syne text-white">Cadru 03</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PACHETE & CALCULATOR -->
+    <section id="preturi" class="py-28 px-6 bg-[#111116]/30 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <span class="text-white text-xs uppercase tracking-widest font-bold">Estimator Buget</span>
+                <h2 class="text-3xl md:text-5xl font-black font-syne uppercase">Calculator</h2>
+                <div class="w-12 h-1 bg-white mx-auto"></div>
+            </div>
+
+            <div class="fix-card p-8 md:p-12 max-w-4xl mx-auto border-white/30">
+                <div class="text-center mb-8">
+                    <span class="text-white text-xs uppercase font-bold tracking-widest"><i class="fa-solid fa-calculator mr-1"></i> Calcul Estimat</span>
+                    <h3 class="text-2xl md:text-3xl font-black font-syne uppercase mt-1">Calculează Bugetul Tău Pentru Nevoile Tale</h3>
+                </div>
+
+                <form id="price-calculator" class="space-y-8">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-3">1. Servicii Principale</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/40 cursor-hover hover:border-white transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-photo" class="custom-checkbox calc-item" data-name="Serviciul Foto" data-price="800">
+                                    <div>
+                                        <span class="text-xs font-bold block">1. Serviciul Foto</span>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-white">+800 LEI</span>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/40 cursor-hover hover:border-white transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-video" class="custom-checkbox calc-item" data-name="Serviciul Video" data-price="1000">
+                                    <div>
+                                        <span class="text-xs font-bold block">2. Serviciul Video</span>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-white">+1000 LEI</span>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/40 cursor-hover hover:border-white transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-package" class="custom-checkbox calc-item" data-name="Pachet Foto/Video" data-price="1600">
+                                    <div>
+                                        <span class="text-xs font-bold block">3. Pachet Foto/Video</span>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-white">+1600 LEI</span>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/40 cursor-hover hover:border-white transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-premium" class="custom-checkbox calc-item" data-name="Pachet Premium (1 Fotograf + 2 Videografi)" data-price="2200">
+                                    <div>
+                                        <span class="text-xs font-bold block">4. Pachet Premium (1 Fotograf + 2 Videografi)</span>
+                                    </div>
+                                </div>
+                                <span class="text-xs font-bold text-white">+2200 LEI</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-gray-300 mb-3">2. Opțiuni Extra</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/20 cursor-hover hover:border-white/50 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-reel" class="custom-checkbox calc-item" data-name="Insta Reel Edit" data-price="100">
+                                    <span class="text-xs">1. Insta Reel Edit</span>
+                                </div>
+                                <span class="text-[11px] text-gray-400">+100 LEI</span>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/20 cursor-hover hover:border-white/50 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-framed" class="custom-checkbox calc-item" data-name="Fotografie Înrămată 10x15" data-price="100">
+                                    <span class="text-xs">2. Fotografie Înrămată 10x15</span>
+                                </div>
+                                <span class="text-[11px] text-gray-400">+100 LEI</span>
+                            </label>
+
+                            <label class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-black/20 cursor-hover hover:border-white/50 transition-all">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" id="calc-preshoot" class="custom-checkbox calc-item" data-name="Ședință Foto/Video înaintea evenimentului" data-price="200">
+                                    <span class="text-xs">3. Ședință Foto/Video înaintea evenimentului</span>
+                                </div>
+                                <span class="text-[11px] text-gray-400">+200 LEI</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 bg-black/60 p-6 rounded-2xl">
+                        <div>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-400 font-mono block">Preț Total Estimativ</span>
+                            <span id="total-price" class="text-4xl font-black font-syne text-white">0 LEI</span>
+                        </div>
+                        <a href="#contact" class="btn-brand text-xs justify-center w-full sm:w-auto cursor-hover" data-cursor="CONFIRM">
+                            Solicită Configurația
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULAR CONTACT FORMSPREE -->
+    <section id="contact" class="py-28 px-6 bg-[#111116]/60 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div class="space-y-8">
+                    <div>
+                        <div class="rec-badge mb-3">
+                            <span class="rec-dot"></span> Contact Direct
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-black font-syne uppercase">Hai Să Discutăm!</h2>
+                        <p class="text-gray-400 text-sm mt-4">
+                            Suntem pregătiți să capturăm cele mai tari momente ale evenimentului tău. Completează formularul și îți răspundem rapid!
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <a href="tel:0749353405" class="flex items-start gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0 group-hover:bg-white group-hover:text-black transition-colors">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Telefon / WhatsApp</h4>
+                                <p class="text-base font-bold text-white mt-0.5">0749 353 405</p>
+                            </div>
+                        </a>
+
+                        <a href="mailto:fixduomedia@gmail.com" class="flex items-start gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white shrink-0 group-hover:bg-white group-hover:text-black transition-colors">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Email Oficial</h4>
+                                <p class="text-base font-bold text-white mt-0.5">fixduomedia@gmail.com</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="fix-card p-8 md:p-10">
+                    <form action="https://formspree.io/f/fixduomedia@gmail.com" method="POST" id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Nume Complet *</label>
+                                <input type="text" name="name" id="form-name" required placeholder="Numele tău" class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Telefon *</label>
+                                <input type="tel" name="phone" id="form-phone" required placeholder="07xx xxx xxx" class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Email *</label>
+                                <input type="email" name="_replyto" id="form-email" required placeholder="email@domeniu.ro" class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Tip Eveniment</label>
+                                <select name="event_type" id="form-type" class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors">
+                                    <option value="Majorat">Majorat</option>
+                                    <option value="Nuntă">Nuntă</option>
+                                    <option value="Botez">Botez</option>
+                                    <option value="Altele">Altele</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Data Evenimentului *</label>
+                            <input type="date" name="event_date" id="form-date" required class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors">
+                        </div>
+
+                        <!-- CÂMPURI SELECTARE ÎN FORMULAR -->
+                        <div class="pt-4 border-t border-white/10 space-y-4">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Serviciu / Pachet Selectat</label>
+                                <select name="selected_main_service" id="form-main-service" class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors">
+                                    <option value="Niciunul">Alege un serviciu principal (sau bifează în calculator)...</option>
+                                    <option value="Serviciul Foto (800 LEI)">1. Serviciul Foto (800 LEI)</option>
+                                    <option value="Serviciul Video (1000 LEI)">2. Serviciul Video (1000 LEI)</option>
+                                    <option value="Pachet Foto/Video (1600 LEI)">3. Pachet Foto/Video (1600 LEI)</option>
+                                    <option value="Pachet Premium (2200 LEI)">4. Pachet Premium (1 Fotograf + 2 Videografi) (2200 LEI)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Opțiuni Extra Selectate</label>
+                                <div class="grid grid-cols-1 gap-2 bg-black/40 p-4 rounded-xl border border-white/10">
+                                    <label class="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" name="extra_services[]" value="Insta Reel Edit (100 LEI)" id="form-extra-reel" class="form-extra-checkbox custom-checkbox">
+                                        <span class="text-xs text-gray-300">Insta Reel Edit (100 LEI)</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" name="extra_services[]" value="Fotografie Înrămată 10x15 (100 LEI)" id="form-extra-framed" class="form-extra-checkbox custom-checkbox">
+                                        <span class="text-xs text-gray-300">Fotografie Înrămată 10x15 (100 LEI)</span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer">
+                                        <input type="checkbox" name="extra_services[]" value="Ședință Foto/Video înaintea evenimentului (200 LEI)" id="form-extra-preshoot" class="form-extra-checkbox custom-checkbox">
+                                        <span class="text-xs text-gray-300">Ședință Foto/Video înaintea evenimentului (200 LEI)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Total Estimat</label>
+                                <input type="text" name="estimated_total" id="form-total" readonly placeholder="0 LEI" class="w-full bg-black/80 border border-white/20 rounded-xl px-4 py-3 text-xs text-white font-bold focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-300 font-bold mb-2">Mesaj / Detalii Locație</label>
+                            <textarea name="message" id="form-message" rows="4" placeholder="Detalii despre eveniment..." class="w-full bg-black/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:outline-none focus:border-white transition-colors"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-brand w-full text-xs justify-center py-4 cursor-hover" data-cursor="SEND">
+                            <i class="fa-regular fa-paper-plane"></i> Trimite Mesajul
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 px-6 border-t border-white/10 text-center text-xs text-gray-500 space-y-4">
+        <div class="flex justify-center items-center gap-2">
+            <img src="./images/fdmsalb.png" alt="FIXDUOMEDIA Logo" class="h-8 w-auto object-contain">
+        </div>
+        <p>2026 FIXDUOMEDIA</p>
+    </footer>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="lightbox-modal p-4">
+        <button id="lightbox-close" class="absolute top-6 right-6 text-white text-3xl hover:text-gray-300 transition-colors cursor-hover" data-cursor="CLOSE">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-5xl max-h-[85vh] p-2 flex flex-col items-center">
+            <img id="lightbox-img" src="" alt="FIXDUOMEDIA Media Preview" class="max-w-full max-h-[75vh] object-contain rounded-xl border border-white/10 shadow-2xl">
+            <div id="lightbox-caption" class="text-center mt-4 text-sm font-bold font-syne text-white"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
