@@ -1,67 +1,94 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* 1. CURSOR CUSTOM */
+    /* 1. VERIFICARE DINAMICĂ MOBIL */
+    const isMobileMode = () => {
+        return window.innerWidth <= 768 || ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.matchMedia('(pointer: coarse)').matches;
+    };
+
+    /* 2. CURSOR CUSTOM (ACCELERARE HARDWARE GPU VIA TRANSLATE3D) */
     const cursorDot = document.getElementById('custom-cursor-dot');
     const cursorRing = document.getElementById('custom-cursor-ring');
     const cursorText = document.getElementById('cursor-text');
 
-    let mouseX = 0, mouseY = 0;
-    let ringX = 0, ringY = 0;
+    let mouseX = -100, mouseY = -100;
+    let ringX = -100, ringY = -100;
+    let isMoving = false;
+    let rafId = null;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        if (cursorDot) {
-            cursorDot.style.left = `${mouseX}px`;
-            cursorDot.style.top = `${mouseY}px`;
-        }
-    });
+    if (!isMobileMode() && cursorDot && cursorRing) {
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
 
-    const renderCursor = () => {
-        ringX += (mouseX - ringX) * 0.15;
-        ringY += (mouseY - ringY) * 0.15;
+            if (!isMoving) {
+                isMoving = true;
+                rafId = requestAnimationFrame(renderCursorRing);
+            }
+        }, { passive: true });
 
-        if (cursorRing) {
-            cursorRing.style.left = `${ringX}px`;
-            cursorRing.style.top = `${ringY}px`;
-        }
-        requestAnimationFrame(renderCursor);
-    };
-    renderCursor();
+        function renderCursorRing() {
+            const dx = mouseX - ringX;
+            const dy = mouseY - ringY;
+            
+            ringX += dx * 0.2;
+            ringY += dy * 0.2;
 
-    const hoverTargets = document.querySelectorAll('.cursor-hover, a, button, input, label, select, textarea, .portfolio-item');
-    hoverTargets.forEach(target => {
-        target.addEventListener('mouseenter', () => {
-            if (cursorRing) cursorRing.classList.add('hovered');
-            const customText = target.getAttribute('data-cursor') || 'VIEW';
-            if (cursorText) cursorText.innerText = customText;
-        });
-        target.addEventListener('mouseleave', () => {
-            if (cursorRing) cursorRing.classList.remove('hovered');
-            if (cursorText) cursorText.innerText = '';
-        });
-    });
+            cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
 
-    /* 2. SCROLL PROGRESS & NAVBAR SCROLLED EFFECT */
-    const scrollProgress = document.getElementById('scroll-progress');
-    const navbar = document.getElementById('navbar');
-
-    window.addEventListener('scroll', () => {
-        const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = (window.scrollY / (totalHeight || 1)) * 100;
-        if (scrollProgress) scrollProgress.style.width = `${progress}%`;
-
-        // Micșorare lină a navbar-ului la scroll
-        if (navbar) {
-            if (window.scrollY > 30) {
-                navbar.classList.add('scrolled');
+            if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+                isMoving = false;
+                cancelAnimationFrame(rafId);
             } else {
-                navbar.classList.remove('scrolled');
+                rafId = requestAnimationFrame(renderCursorRing);
             }
         }
-    });
 
-    /* 3. MENU MOBILE TOGGLE (Cu animație fluidă Slide & Fade) */
+        const hoverTargets = document.querySelectorAll('.cursor-hover, a, button, input, label, select, textarea, .portfolio-item');
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                cursorRing.classList.add('hovered');
+                const customText = target.getAttribute('data-cursor') || 'VIEW';
+                if (cursorText) cursorText.innerText = customText;
+            }, { passive: true });
+
+            target.addEventListener('mouseleave', () => {
+                cursorRing.classList.remove('hovered');
+                if (cursorText) cursorText.innerText = '';
+            }, { passive: true });
+        });
+    }
+
+    /* 3. SCROLL PROGRESS & NAVBAR SCROLLED EFFECT */
+    const scrollProgress = document.getElementById('scroll-progress');
+    const navbar = document.getElementById('navbar');
+    let isScrolling = false;
+
+    window.addEventListener('scroll', () => {
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                const totalHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = totalHeight > 0 ? (window.scrollY / totalHeight) : 0;
+                
+                if (scrollProgress) {
+                    scrollProgress.style.transform = `scaleX(${progress})`;
+                }
+
+                if (navbar) {
+                    if (window.scrollY > 30) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                }
+                isScrolling = false;
+            });
+            isScrolling = true;
+        }
+    }, { passive: true });
+
+    /* 4. MENU MOBILE TOGGLE */
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -95,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* 4. LIGHTBOX GALERIE & HINT PENTRU MOBIL */
+    /* 5. LIGHTBOX GALERIE & PROMPT MOBIL (APASĂ DIN NOU PENTRU MĂRIRE) */
     const galleryItems = document.querySelectorAll('.portfolio-item');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -103,40 +130,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxClose = document.getElementById('lightbox-close');
     const mobileHint = document.getElementById('mobile-img-hint');
 
-    let isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
     let activeTappedItem = null;
     let hintTimeout = null;
 
     galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
             const imgEl = item.querySelector('img');
             const titleEl = item.querySelector('h4');
 
-            if (isTouchDevice) {
+            // Logica specifică pentru modul de Telefon / Touch
+            if (isMobileMode()) {
                 if (activeTappedItem !== item) {
                     galleryItems.forEach(i => i.classList.remove('img-tapped'));
                     item.classList.add('img-tapped');
                     activeTappedItem = item;
 
                     if (mobileHint) {
+                        mobileHint.innerText = "Apasă din nou pentru a mări imaginea";
                         mobileHint.classList.add('show');
                         clearTimeout(hintTimeout);
                         hintTimeout = setTimeout(() => {
                             mobileHint.classList.remove('show');
-                        }, 2500);
+                        }, 3000);
                     }
-                    return;
+                    return; // Opriți executarea la prima apăsare pe mobil
                 }
             }
 
+            // A doua apăsare pe mobil SAU apăsarea pe Desktop deschide imaginea
             if (lightboxImg && imgEl) lightboxImg.src = imgEl.src;
             if (lightboxCaption && titleEl) lightboxCaption.innerText = titleEl.innerText;
             if (lightbox) lightbox.classList.add('active');
 
             if (mobileHint) mobileHint.classList.remove('show');
-            item.classList.remove('img-tapped');
+            galleryItems.forEach(i => i.classList.remove('img-tapped'));
             activeTappedItem = null;
         });
+    });
+
+    // Resetare dacă utilizatorul apasă în afara galerei
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.portfolio-item') && activeTappedItem) {
+            galleryItems.forEach(i => i.classList.remove('img-tapped'));
+            activeTappedItem = null;
+            if (mobileHint) mobileHint.classList.remove('show');
+        }
     });
 
     if (lightboxClose) {
@@ -147,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape' && lightbox) lightbox.classList.remove('active');
     });
 
-    /* 5. CALCULATOR PREȚ & AUTOCOMPLETARE FORMULAR */
+    /* 6. CALCULATOR PREȚ & AUTOCOMPLETARE FORMULAR */
     const calcItems = document.querySelectorAll('.calc-item');
     const totalPriceEl = document.getElementById('total-price');
 
@@ -161,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'calc-photo': 'Serviciul Foto (800 LEI)',
         'calc-video': 'Serviciul Video (1000 LEI)',
         'calc-package': 'Pachet Foto/Video (1600 LEI)',
-        'calc-premium': 'Pachet Premium (1 Fotograf + 2 Videografi) (2200 LEI)'
+        'calc-premium': 'Pachet Premium (2200 LEI)'
     };
 
     const calculateTotal = () => {
@@ -195,10 +234,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (formMainService) {
             const val = formMainService.value;
-            if (val.startsWith('1. Serviciul Foto')) document.getElementById('calc-photo').checked = true;
-            else if (val.startsWith('2. Serviciul Video')) document.getElementById('calc-video').checked = true;
-            else if (val.startsWith('3. Pachet Foto/Video')) document.getElementById('calc-package').checked = true;
-            else if (val.startsWith('4. Pachet Premium')) document.getElementById('calc-premium').checked = true;
+            if (val.startsWith('Serviciul Foto')) document.getElementById('calc-photo').checked = true;
+            else if (val.startsWith('Serviciul Video')) document.getElementById('calc-video').checked = true;
+            else if (val.startsWith('Pachet Foto/Video')) document.getElementById('calc-package').checked = true;
+            else if (val.startsWith('Pachet Premium')) document.getElementById('calc-premium').checked = true;
         }
 
         if (formExtraReel && document.getElementById('calc-reel')) document.getElementById('calc-reel').checked = formExtraReel.checked;
@@ -233,4 +272,166 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     calculateTotal();
+
+    /* 7. CUSTOM VIDEO PLAYER LOGIC */
+    const videoCard = document.querySelector('.custom-video-card');
+    const customVideo = document.getElementById('custom-video');
+    const bigPlayBtn = document.getElementById('big-play-btn');
+    const videoPlayBtn = document.getElementById('video-play-btn');
+    const videoMuteBtn = document.getElementById('video-mute-btn');
+    const videoFullscreenBtn = document.getElementById('video-fullscreen-btn');
+    const videoProgressContainer = document.getElementById('video-progress-container');
+    const videoProgressBar = document.getElementById('video-progress-bar');
+    const videoTime = document.getElementById('video-time');
+
+    if (customVideo && videoCard) {
+        const formatTime = (seconds) => {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        };
+
+        const togglePlay = () => {
+            if (customVideo.paused) {
+                customVideo.play();
+                videoCard.classList.add('playing');
+                videoCard.classList.remove('paused');
+                if (bigPlayBtn) bigPlayBtn.innerHTML = '<i class="fa-solid fa-pause ml-0"></i>';
+                if (videoPlayBtn) videoPlayBtn.innerHTML = '<i class="fa-solid fa-pause text-sm"></i>';
+            } else {
+                customVideo.pause();
+                videoCard.classList.remove('playing');
+                videoCard.classList.add('paused');
+                if (bigPlayBtn) bigPlayBtn.innerHTML = '<i class="fa-solid fa-play ml-1"></i>';
+                if (videoPlayBtn) videoPlayBtn.innerHTML = '<i class="fa-solid fa-play text-sm"></i>';
+            }
+        };
+
+        const toggleFullscreen = () => {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (videoCard.requestFullscreen) {
+                    videoCard.requestFullscreen();
+                } else if (videoCard.webkitRequestFullscreen) {
+                    videoCard.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        };
+
+        if (bigPlayBtn) bigPlayBtn.addEventListener('click', togglePlay);
+        if (videoPlayBtn) videoPlayBtn.addEventListener('click', togglePlay);
+
+        customVideo.addEventListener('timeupdate', () => {
+            if (customVideo.duration) {
+                const progress = (customVideo.currentTime / customVideo.duration) * 100;
+                if (videoProgressBar) videoProgressBar.style.width = `${progress}%`;
+                if (videoTime) {
+                    videoTime.innerText = `${formatTime(customVideo.currentTime)} / ${formatTime(customVideo.duration)}`;
+                }
+            }
+        });
+
+        customVideo.addEventListener('loadedmetadata', () => {
+            if (videoTime && customVideo.duration) {
+                videoTime.innerText = `00:00 / ${formatTime(customVideo.duration)}`;
+            }
+        });
+
+        if (videoProgressContainer) {
+            videoProgressContainer.addEventListener('click', (e) => {
+                const rect = videoProgressContainer.getBoundingClientRect();
+                const clickPos = (e.clientX - rect.left) / rect.width;
+                customVideo.currentTime = clickPos * customVideo.duration;
+            });
+        }
+
+        if (videoMuteBtn) {
+            videoMuteBtn.addEventListener('click', () => {
+                customVideo.muted = !customVideo.muted;
+                videoMuteBtn.innerHTML = customVideo.muted 
+                    ? '<i class="fa-solid fa-volume-xmark text-xs"></i>' 
+                    : '<i class="fa-solid fa-volume-high text-xs"></i>';
+            });
+        }
+
+        if (videoFullscreenBtn) {
+            videoFullscreenBtn.addEventListener('click', toggleFullscreen);
+        }
+
+        /* GESTIONARE CURSOR NATIV ȘI ICONIȚĂ ÎN FULLSCREEN */
+        const handleFullscreenChange = () => {
+            const cursorDot = document.getElementById('custom-cursor-dot');
+            const cursorRing = document.getElementById('custom-cursor-ring');
+            const isFS = document.fullscreenElement || document.webkitFullscreenElement;
+
+            if (isFS) {
+                if (cursorDot) isFS.appendChild(cursorDot);
+                if (cursorRing) isFS.appendChild(cursorRing);
+                if (videoFullscreenBtn) {
+                    videoFullscreenBtn.innerHTML = '<i class="fa-solid fa-compress text-xs"></i>';
+                }
+            } else {
+                if (cursorDot) document.body.appendChild(cursorDot);
+                if (cursorRing) document.body.appendChild(cursorRing);
+                if (videoFullscreenBtn) {
+                    videoFullscreenBtn.innerHTML = '<i class="fa-solid fa-expand text-xs"></i>';
+                }
+            }
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+        /* COMENZI RAPIDE DE LA TASTATURĂ (SHORTCUTS) */
+        document.addEventListener('keydown', (e) => {
+            // Ignorăm comanda dacă utilizatorul scrie într-un câmp de text/formular
+            const activeEl = document.activeElement;
+            const isInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable);
+            if (isInput) return;
+
+            const isFS = document.fullscreenElement || document.webkitFullscreenElement;
+            const isHovered = videoCard.matches(':hover');
+
+            // Comenzile funcționează dacă suntem în Fullscreen sau dacă mouse-ul este peste player
+            if (isFS || isHovered) {
+                // SPACE: Play / Pause
+                if (e.key === ' ' || e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlay();
+                }
+                // SĂGEATĂ STÂNGA: Inapoi 5 secunde
+                else if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    if (customVideo.duration) {
+                        customVideo.currentTime = Math.max(0, customVideo.currentTime - 5);
+                    }
+                }
+                // SĂGEATĂ DREAPTA: Înainte 5 secunde
+                else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    if (customVideo.duration) {
+                        customVideo.currentTime = Math.min(customVideo.duration, customVideo.currentTime + 5);
+                    }
+                }
+                // TASTA F: Toggle Fullscreen
+                else if (e.key === 'f' || e.key === 'F') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+            }
+        });
+
+        customVideo.addEventListener('ended', () => {
+            videoCard.classList.remove('playing');
+            videoCard.classList.add('paused');
+            if (bigPlayBtn) bigPlayBtn.innerHTML = '<i class="fa-solid fa-play ml-1"></i>';
+            if (videoPlayBtn) videoPlayBtn.innerHTML = '<i class="fa-solid fa-play text-sm"></i>';
+            if (videoProgressBar) videoProgressBar.style.width = '0%';
+        });
+    }
 });

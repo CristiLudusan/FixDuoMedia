@@ -235,39 +235,90 @@
 
     <!-- MUNCA NOASTRĂ -->
     <section id="portofoliu" class="py-28 px-6 relative border-t border-white/5">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
-                <span class="text-white text-xs uppercase tracking-widest font-bold">Galerie Selectată</span>
-                <h2 class="text-3xl md:text-5xl font-black font-syne uppercase">Munca Noastră</h2>
-                <div class="w-12 h-1 bg-white mx-auto"></div>
+        <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    
+    <!-- Poza 1 -->
+    <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
+        <img src="./images/Majorat Daniela 01.jpg" alt="Majorat Daniela 01" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+            <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
+            <h4 class="text-xl font-bold font-syne text-white">Shot on Sony A7 iii</h4>
+        </div>
+    </div>
+
+    <!-- PLAYER VIDEO CUSTOM -->
+    <div class="custom-video-card fix-card group overflow-hidden relative h-96 border-white/20">
+        <!-- Elementul Video Nativ -->
+        <video id="custom-video" class="w-full h-full object-cover" preload="metadata" playsinline poster="./images/poster_promo_paul.jpg">
+            <source src="./videos/paul_intro_promo.mp4" type="video/mp4">
+            Browserul tău nu suportă redarea video.
+        </video>
+
+        <!-- Buton Central Mare Play/Pause -->
+        <button id="big-play-btn" class="absolute inset-0 m-auto w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/40 text-white flex items-center justify-center text-xl transition-all duration-300 group-hover:scale-110 z-10 cursor-hover" data-cursor="PLAY" aria-label="Play Video">
+            <i class="fa-solid fa-play ml-1"></i>
+        </button>
+
+        <!-- Overlay Controale Custom (Apare la hover sau când e în pauză) -->
+        <div class="video-controls-overlay absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent flex flex-col justify-between p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+            
+            <!-- Badge Sus -->
+            <div class="flex justify-between items-center pointer-events-auto">
+                <div class="rec-badge !text-[10px] !py-1 !px-2.5">
+                    <span class="rec-dot"></span> VIDEO HIGHLIGHTS
+                </div>
             </div>
 
-            <div id="gallery-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
-                    <img src="./images/Majorat Daniela 01.jpg" alt="Majorat Daniela 01" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
-                        <h4 class="text-xl font-bold font-syne text-white">Cadru 01</h4>
-                    </div>
+            <!-- Controale Jos -->
+            <div class="space-y-3 pointer-events-auto">
+                <div>
+                    <span class="text-[10px] text-white/70 font-mono font-bold tracking-widest uppercase">4K DCI 24FPS</span>
+                    <h4 class="text-lg font-bold font-syne text-white">Majorat Paul</h4>
                 </div>
 
-                <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
-                    <img src="./images/Majorat Daniela 02.jpg" alt="Majorat Daniela 02" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
-                        <h4 class="text-xl font-bold font-syne text-white">Cadru 02</h4>
-                    </div>
+                <!-- Bara de Progres -->
+                <div id="video-progress-container" class="w-full h-1.5 bg-white/20 rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 hover:h-2">
+                    <div id="video-progress-bar" class="h-full bg-white w-0 transition-all duration-75"></div>
                 </div>
 
-                <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
-                    <img src="./images/Majorat Daniela 03.jpg" alt="Majorat Daniela 03" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                        <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
-                        <h4 class="text-xl font-bold font-syne text-white">Cadru 03</h4>
+                <!-- Butoane Acțiuni -->
+                <div class="flex items-center justify-between text-white pt-1">
+                    <div class="flex items-center gap-4">
+                        <button id="video-play-btn" class="hover:text-gray-300 transition-colors focus:outline-none cursor-hover" data-cursor="TOGGLE">
+                            <i class="fa-solid fa-play text-sm"></i>
+                        </button>
+                        <button id="video-mute-btn" class="hover:text-gray-300 transition-colors focus:outline-none cursor-hover" data-cursor="MUTE">
+                            <i class="fa-solid fa-volume-high text-xs"></i>
+                        </button>
+                        <span id="video-time" class="text-[10px] font-mono text-gray-300">00:00 / 00:00</span>
                     </div>
+
+                    <button id="video-fullscreen-btn" class="hover:text-gray-300 transition-colors focus:outline-none cursor-hover" data-cursor="FULL">
+                        <i class="fa-solid fa-expand text-xs"></i>
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Poza 3 -->
+    <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
+        <img src="./images/Majorat Daniela 03.jpg" alt="Majorat Daniela 03" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+            <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
+            <h4 class="text-xl font-bold font-syne text-white">Shot on Sony A7 iii</h4>
+        </div>
+    </div>
+
+    <div class="portfolio-item fix-card group overflow-hidden cursor-hover h-96 relative" data-cursor="ZOOM">
+        <img src="./images/Majorat Daniela 02.jpg" alt="Majorat Daniela 02" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+            <span class="text-[10px] text-white font-mono font-bold tracking-widest uppercase">MAJORAT DANIELA</span>
+            <h4 class="text-xl font-bold font-syne text-white">Shot on Sony A7 iii</h4>
+        </div>
+    </div>
+
+</div>
     </section>
 
     <!-- PACHETE & CALCULATOR -->

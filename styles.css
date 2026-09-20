@@ -7,7 +7,7 @@
     --border-glow: rgba(255, 255, 255, 0.35);
     --font-display: 'Syne', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-smooth: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -40,28 +40,31 @@ body {
     height: 3px;
     background: #ffffff;
     z-index: 100;
-    transition: width 0.1s ease;
+    will-change: transform;
+    transform-origin: left;
+    transform: scaleX(0);
     box-shadow: 0 0 10px #ffffff;
-    width: 0%;
+    width: 100%;
 }
 
 .text-glow {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .fix-card {
-    background: rgba(17, 17, 22, 0.7);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(17, 17, 22, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--border-dim);
     border-radius: 16px;
-    transition: var(--transition-smooth);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
 }
 
 .fix-card:hover {
     border-color: var(--border-glow);
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.8);
 }
 
 /* BUTTONS */
@@ -76,15 +79,14 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: var(--transition-smooth);
+    transition: transform 0.2s ease, background-color 0.2s ease;
     border: none;
-    box-shadow: 0 4px 20px var(--brand-glow);
+    will-change: transform;
 }
 
 .btn-brand:hover {
     background: #e2e8f0;
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.5);
 }
 
 .btn-outline {
@@ -98,8 +100,9 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: var(--transition-smooth);
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     background: transparent;
+    will-change: transform;
 }
 
 .btn-outline:hover {
@@ -133,12 +136,13 @@ body {
 
 @keyframes pulseRec {
     0% { opacity: 0.2; transform: scale(0.8); }
-    100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px #ffffff; }
+    100% { opacity: 1; transform: scale(1.2); }
 }
 
+/* ELIMINAT background-attachment: fixed PENTRU PERFORMANȚĂ PE GPU */
 .hero-bg {
     background: linear-gradient(180deg, rgba(8, 8, 10, 0.75) 0%, rgba(8, 8, 10, 0.98) 100%),
-                url('./images/background.jpeg') center/cover no-repeat fixed;
+                url('./images/background.jpeg') center/cover no-repeat;
 }
 
 .lightbox-modal {
@@ -147,7 +151,7 @@ body {
     z-index: 9999;
     inset: 0;
     background: rgba(5, 5, 7, 0.96);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(12px);
     align-items: center;
     justify-content: center;
 }
@@ -179,7 +183,7 @@ body {
     transform: translate(-50%, -50%);
 }
 
-/* CUSTOM CURSOR */
+/* CUSTOM CURSOR - OPTIMIZAT GPU (TRANSLATE3D) */
 #custom-cursor-dot {
     position: fixed;
     top: 0;
@@ -190,9 +194,9 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 99999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    will-change: transform;
+    margin-top: -4px;
+    margin-left: -4px;
 }
 
 #custom-cursor-ring {
@@ -205,8 +209,8 @@ body {
     border-radius: 50%;
     pointer-events: none;
     z-index: 99998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease-out, width 0.3s, height 0.3s, border-color 0.3s;
+    will-change: transform, width, height, background-color;
+    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -214,14 +218,17 @@ body {
     font-weight: 800;
     letter-spacing: 1px;
     color: #ffffff;
+    margin-top: -20px;
+    margin-left: -20px;
 }
 
 #custom-cursor-ring.hovered {
     width: 70px;
     height: 70px;
+    margin-top: -35px;
+    margin-left: -35px;
     border-color: #ffffff;
     background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(2px);
 }
 
 @media (pointer: coarse) {
@@ -233,16 +240,16 @@ body {
 #navbar {
     padding-top: 1rem;
     padding-bottom: 1rem;
-    transition: all 0.3s ease;
+    transition: padding 0.3s ease, background-color 0.3s ease;
+    will-change: padding, background-color;
 }
 
 #navbar.scrolled {
     padding-top: 0.6rem;
     padding-bottom: 0.6rem;
     background-color: rgba(8, 8, 10, 0.95);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -250,15 +257,15 @@ body {
 #mobile-menu {
     max-height: 0;
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translate3d(0, -10px, 0);
     overflow: hidden;
     pointer-events: none;
-    transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 0.35s ease,
-                transform 0.35s ease,
-                padding 0.35s ease,
-                margin 0.35s ease,
-                border-color 0.35s ease;
+    will-change: max-height, opacity, transform;
+    transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.25s ease,
+                transform 0.25s ease,
+                padding 0.25s ease,
+                margin 0.25s ease;
     padding-top: 0;
     padding-bottom: 0;
     margin-top: 0;
@@ -268,7 +275,7 @@ body {
 #mobile-menu.open {
     max-height: 500px;
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     pointer-events: auto;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -276,10 +283,10 @@ body {
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Animație rotire buton meniu mobil */
 #menu-toggle i {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.25s ease;
     display: inline-block;
+    will-change: transform;
 }
 
 #menu-toggle.active i {
@@ -291,7 +298,7 @@ body {
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translateX(-50%) translateY(100px);
+    transform: translate3d(-50%, 100px, 0);
     background: rgba(17, 17, 22, 0.95);
     border: 1px solid rgba(255, 255, 255, 0.3);
     color: #fff;
@@ -302,17 +309,67 @@ body {
     z-index: 10000;
     opacity: 0;
     pointer-events: none;
+    will-change: transform, opacity;
     transition: transform 0.3s ease, opacity 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
 }
 
 #mobile-img-hint.show {
-    transform: translateX(-50%) translateY(0);
+    transform: translate3d(-50%, 0, 0);
     opacity: 1;
 }
 
-/* Animație la primul tap pe poze pe mobil */
 .portfolio-item.img-tapped img {
     transform: scale(0.96);
     transition: transform 0.2s ease;
+}
+
+/* --- CUSTOM VIDEO PLAYER --- */
+.custom-video-card.playing #big-play-btn {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+}
+
+.custom-video-card.paused .video-controls-overlay,
+.custom-video-card.paused #big-play-btn {
+    opacity: 1;
+}
+
+.custom-video-card:hover .video-controls-overlay {
+    opacity: 1;
+}
+
+/* Asigură că pe mobil controalele rămân vizibile când video-ul e oprit */
+@media (pointer: coarse) {
+    .video-controls-overlay {
+        opacity: 1 !important;
+        background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.85) 100%);
+    }
+}
+
+/* Centrare automată pe desktop când ultimul element este singur pe rând */
+@media (min-width: 768px) {
+    #gallery-grid > *:last-child:nth-child(3n + 1) {
+        grid-column: 2;
+    }
+}
+
+/* STILURI FULLSCREEN PENTRU CARDUL PLAYER-ULUI CUSTOM */
+.custom-video-card:fullscreen,
+.custom-video-card:-webkit-full-screen {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background-color: #000000 !important;
+}
+
+/* Asigură z-index maxim pentru cursorul custom când suntem în Fullscreen */
+.custom-video-card:fullscreen #custom-cursor-dot,
+.custom-video-card:fullscreen #custom-cursor-ring,
+.custom-video-card:-webkit-full-screen #custom-cursor-dot,
+.custom-video-card:-webkit-full-screen #custom-cursor-ring {
+    z-index: 999999 !important;
 }
