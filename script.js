@@ -308,17 +308,30 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const toggleFullscreen = () => {
-            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-                if (videoCard.requestFullscreen) {
-                    videoCard.requestFullscreen();
-                } else if (videoCard.webkitRequestFullscreen) {
-                    videoCard.webkitRequestFullscreen();
+            // Detectăm dacă utilizatorul este pe mobil sau tabletă
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+
+            if (isMobile) {
+                // PE MOBIL: Deschidem direct player-ul nativ al telefonului
+                if (customVideo.webkitEnterFullscreen) {
+                    customVideo.webkitEnterFullscreen(); // Pentru iOS / Safari
+                } else if (customVideo.requestFullscreen) {
+                    customVideo.requestFullscreen(); // Pentru Android / Chrome
                 }
             } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
+                // PE DESKTOP: Folosim player-ul custom în Fullscreen
+                if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                    if (videoCard.requestFullscreen) {
+                        videoCard.requestFullscreen();
+                    } else if (videoCard.webkitRequestFullscreen) {
+                        videoCard.webkitRequestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
                 }
             }
         };
