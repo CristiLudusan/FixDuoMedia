@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    /* CURSOR CUSTOM */
+    /* 1. CURSOR CUSTOM */
     const cursorDot = document.getElementById('custom-cursor-dot');
     const cursorRing = document.getElementById('custom-cursor-ring');
     const cursorText = document.getElementById('cursor-text');
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     renderCursor();
 
-    const hoverTargets = document.querySelectorAll('.cursor-hover, a, button, input, label, .portfolio-item');
+    const hoverTargets = document.querySelectorAll('.cursor-hover, a, button, input, label, select, textarea, .portfolio-item');
     hoverTargets.forEach(target => {
         target.addEventListener('mouseenter', () => {
             if (cursorRing) cursorRing.classList.add('hovered');
@@ -42,46 +42,100 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* SCROLL PROGRESS */
+    /* 2. SCROLL PROGRESS & NAVBAR SCROLLED EFFECT */
     const scrollProgress = document.getElementById('scroll-progress');
+    const navbar = document.getElementById('navbar');
+
     window.addEventListener('scroll', () => {
         const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = (window.scrollY / totalHeight) * 100;
+        const progress = (window.scrollY / (totalHeight || 1)) * 100;
         if (scrollProgress) scrollProgress.style.width = `${progress}%`;
+
+        // Micșorare lină a navbar-ului la scroll
+        if (navbar) {
+            if (window.scrollY > 30) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
     });
 
-    /* MENU MOBILE */
+    /* 3. MENU MOBILE TOGGLE (Cu animație fluidă Slide & Fade) */
     const menuToggle = document.getElementById('menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     const mobileLinks = document.querySelectorAll('.mobile-link');
+    const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
 
     if (menuToggle && mobileMenu) {
         menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
+            const isOpen = mobileMenu.classList.toggle('open');
+            menuToggle.classList.toggle('active', isOpen);
+
+            if (menuIcon) {
+                if (isOpen) {
+                    menuIcon.classList.remove('fa-bars-staggered');
+                    menuIcon.classList.add('fa-xmark');
+                } else {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars-staggered');
+                }
+            }
         });
+
         mobileLinks.forEach(link => {
             link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
+                mobileMenu.classList.remove('open');
+                menuToggle.classList.remove('active');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-xmark');
+                    menuIcon.classList.add('fa-bars-staggered');
+                }
             });
         });
     }
 
-    /* LIGHTBOX GALERIE */
+    /* 4. LIGHTBOX GALERIE & HINT PENTRU MOBIL */
     const galleryItems = document.querySelectorAll('.portfolio-item');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const lightboxClose = document.getElementById('lightbox-close');
+    const mobileHint = document.getElementById('mobile-img-hint');
+
+    let isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    let activeTappedItem = null;
+    let hintTimeout = null;
 
     galleryItems.forEach(item => {
         item.addEventListener('click', () => {
             const imgEl = item.querySelector('img');
             const titleEl = item.querySelector('h4');
-            if (lightboxImg) lightboxImg.src = imgEl.src;
-            if (lightboxCaption) lightboxCaption.innerText = titleEl ? titleEl.innerText : '';
+
+            if (isTouchDevice) {
+                if (activeTappedItem !== item) {
+                    galleryItems.forEach(i => i.classList.remove('img-tapped'));
+                    item.classList.add('img-tapped');
+                    activeTappedItem = item;
+
+                    if (mobileHint) {
+                        mobileHint.classList.add('show');
+                        clearTimeout(hintTimeout);
+                        hintTimeout = setTimeout(() => {
+                            mobileHint.classList.remove('show');
+                        }, 2500);
+                    }
+                    return;
+                }
+            }
+
+            if (lightboxImg && imgEl) lightboxImg.src = imgEl.src;
+            if (lightboxCaption && titleEl) lightboxCaption.innerText = titleEl.innerText;
             if (lightbox) lightbox.classList.add('active');
+
+            if (mobileHint) mobileHint.classList.remove('show');
+            item.classList.remove('img-tapped');
+            activeTappedItem = null;
         });
     });
 
@@ -93,95 +147,86 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape' && lightbox) lightbox.classList.remove('active');
     });
 
-    /* CALCULATOR PREȚ */
-    /* CALCULATOR PREȚ & AUTOCOMPLETARE FORMULAR */
+    /* 5. CALCULATOR PREȚ & AUTOCOMPLETARE FORMULAR */
     const calcItems = document.querySelectorAll('.calc-item');
     const totalPriceEl = document.getElementById('total-price');
-    
-    // Elemente formular
+
     const formMainService = document.getElementById('form-main-service');
     const formExtraReel = document.getElementById('form-extra-reel');
     const formExtraFramed = document.getElementById('form-extra-framed');
     const formExtraPreshoot = document.getElementById('form-extra-preshoot');
     const formTotal = document.getElementById('form-total');
 
-    // Harta de legătură între calculator și formular
     const mainServicesMap = {
         'calc-photo': 'Serviciul Foto (800 LEI)',
         'calc-video': 'Serviciul Video (1000 LEI)',
         'calc-package': 'Pachet Foto/Video (1600 LEI)',
-        'calc-premium': 'Pachet Premium (2200 LEI)'
+        'calc-premium': 'Pachet Premium (1 Fotograf + 2 Videografi) (2200 LEI)'
     };
 
     const calculateTotal = () => {
         let total = 0;
         let selectedMain = 'Niciunul';
 
-        // Calcul total calculator
         calcItems.forEach(item => {
             if (item.checked) {
-                total += parseInt(item.dataset.price);
+                total += parseInt(item.dataset.price || 0, 10);
             }
         });
 
-        // Verificare Serviciu Principal selectat în calculator
         const selectedMainInput = Array.from(document.querySelectorAll('#calc-photo, #calc-video, #calc-package, #calc-premium')).find(i => i.checked);
         if (selectedMainInput) {
-            selectedMain = mainServicesMap[selectedMainInput.id];
+            selectedMain = mainServicesMap[selectedMainInput.id] || 'Niciunul';
         }
 
-        // Actualizare afișaj pret calculator
-        if (totalPriceEl) totalPriceEl.innerText = `${total.toLocaleString()} LEI`;
+        if (totalPriceEl) totalPriceEl.innerText = `${total.toLocaleString('ro-RO')} LEI`;
 
-        // Autocompletare în Formular
         if (formMainService) formMainService.value = selectedMain;
-        if (formExtraReel) formExtraReel.checked = document.getElementById('calc-reel').checked;
-        if (formExtraFramed) formExtraFramed.checked = document.getElementById('calc-framed').checked;
-        if (formExtraPreshoot) formExtraPreshoot.checked = document.getElementById('calc-preshoot').checked;
-        if (formTotal) formTotal.value = `${total.toLocaleString()} LEI`;
+        if (formExtraReel && document.getElementById('calc-reel')) formExtraReel.checked = document.getElementById('calc-reel').checked;
+        if (formExtraFramed && document.getElementById('calc-framed')) formExtraFramed.checked = document.getElementById('calc-framed').checked;
+        if (formExtraPreshoot && document.getElementById('calc-preshoot')) formExtraPreshoot.checked = document.getElementById('calc-preshoot').checked;
+        if (formTotal) formTotal.value = `${total.toLocaleString('ro-RO')} LEI`;
     };
 
-    // Sincronizare inversă: când utilizatorul schimbă ceva manual în FORMULAR
     const syncFormToCalc = () => {
         let total = 0;
 
-        // Resetare servicii principale din calculator
         document.querySelectorAll('#calc-photo, #calc-video, #calc-package, #calc-premium').forEach(i => i.checked = false);
 
-        // Activare bifă potrivită din calculator pe baza select-ului din formular
-        if (formMainService.value.includes('Serviciul Foto')) document.getElementById('calc-photo').checked = true;
-        if (formMainService.value.includes('Serviciul Video')) document.getElementById('calc-video').checked = true;
-        if (formMainService.value.includes('Pachet Foto/Video')) document.getElementById('calc-package').checked = true;
-        if (formMainService.value.includes('Pachet Premium')) document.getElementById('calc-premium').checked = true;
+        if (formMainService) {
+            const val = formMainService.value;
+            if (val.startsWith('1. Serviciul Foto')) document.getElementById('calc-photo').checked = true;
+            else if (val.startsWith('2. Serviciul Video')) document.getElementById('calc-video').checked = true;
+            else if (val.startsWith('3. Pachet Foto/Video')) document.getElementById('calc-package').checked = true;
+            else if (val.startsWith('4. Pachet Premium')) document.getElementById('calc-premium').checked = true;
+        }
 
-        // Sincronizare opțiuni extra din formular în calculator
-        document.getElementById('calc-reel').checked = formExtraReel.checked;
-        document.getElementById('calc-framed').checked = formExtraFramed.checked;
-        document.getElementById('calc-preshoot').checked = formExtraPreshoot.checked;
+        if (formExtraReel && document.getElementById('calc-reel')) document.getElementById('calc-reel').checked = formExtraReel.checked;
+        if (formExtraFramed && document.getElementById('calc-framed')) document.getElementById('calc-framed').checked = formExtraFramed.checked;
+        if (formExtraPreshoot && document.getElementById('calc-preshoot')) document.getElementById('calc-preshoot').checked = formExtraPreshoot.checked;
 
-        // Recalculare total
         calcItems.forEach(item => {
-            if (item.checked) total += parseInt(item.dataset.price);
+            if (item.checked) total += parseInt(item.dataset.price || 0, 10);
         });
 
-        if (totalPriceEl) totalPriceEl.innerText = `${total.toLocaleString()} LEI`;
-        if (formTotal) formTotal.value = `${total.toLocaleString()} LEI`;
+        if (totalPriceEl) totalPriceEl.innerText = `${total.toLocaleString('ro-RO')} LEI`;
+        if (formTotal) formTotal.value = `${total.toLocaleString('ro-RO')} LEI`;
     };
 
-    // Evenimente pe calculator
     calcItems.forEach(input => {
         input.addEventListener('change', (e) => {
-            // Dacă se selectează un Serviciu Principal, le desselectăm pe celelalte servicii principale
             if (['calc-photo', 'calc-video', 'calc-package', 'calc-premium'].includes(e.target.id) && e.target.checked) {
                 ['calc-photo', 'calc-video', 'calc-package', 'calc-premium'].forEach(id => {
-                    if (id !== e.target.id) document.getElementById(id).checked = false;
+                    if (id !== e.target.id) {
+                        const el = document.getElementById(id);
+                        if (el) el.checked = false;
+                    }
                 });
             }
             calculateTotal();
         });
     });
 
-    // Evenimente pe formular
     if (formMainService) formMainService.addEventListener('change', syncFormToCalc);
     [formExtraReel, formExtraFramed, formExtraPreshoot].forEach(chk => {
         if (chk) chk.addEventListener('change', syncFormToCalc);

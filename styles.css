@@ -228,3 +228,91 @@ body {
     #custom-cursor-dot, #custom-cursor-ring { display: none !important; }
     * { cursor: auto !important; }
 }
+
+/* --- NAVBAR DESKTOP & SCROLL --- */
+#navbar {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+#navbar.scrolled {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    background-color: rgba(8, 8, 10, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* --- MENIU MOBIL ANIMAȚIE SLIDE & FADE --- */
+#mobile-menu {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-12px);
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.35s ease,
+                transform 0.35s ease,
+                padding 0.35s ease,
+                margin 0.35s ease,
+                border-color 0.35s ease;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    border-color: transparent;
+}
+
+#mobile-menu.open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-top: 1rem;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Animație rotire buton meniu mobil */
+#menu-toggle i {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-block;
+}
+
+#menu-toggle.active i {
+    transform: rotate(90deg);
+}
+
+/* --- TOAST HINT IMAGINE PE MOBIL --- */
+#mobile-img-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(17, 17, 22, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+}
+
+#mobile-img-hint.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Animație la primul tap pe poze pe mobil */
+.portfolio-item.img-tapped img {
+    transform: scale(0.96);
+    transition: transform 0.2s ease;
+}

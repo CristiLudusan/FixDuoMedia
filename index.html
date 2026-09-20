@@ -25,7 +25,7 @@
     <div id="scroll-progress"></div>
 
     <!-- NAVBAR -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-[#08080a]/80 backdrop-blur-md border-b border-white/5 py-4 px-6 md:px-12 transition-all duration-300">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-[#08080a]/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 transition-all duration-300">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             
             <a href="#" class="flex items-center group cursor-hover" data-cursor="FIX">
@@ -52,14 +52,15 @@
             </button>
         </div>
 
-        <div id="mobile-menu" class="hidden lg:hidden flex-col bg-[#111116] border-b border-white/20 px-6 py-6 mt-4 rounded-xl space-y-4 shadow-2xl">
-            <a href="#acasa" class="mobile-link text-white font-semibold py-2 border-b border-white/5">Acasă</a>
-            <a href="#despre" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Echipă & Echipamente</a>
-            <a href="#servicii" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Servicii</a>
-            <a href="#portofoliu" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Munca Noastră</a>
-            <a href="#preturi" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Pachete & Calculator</a>
-            <a href="#contact" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5">Contact</a>
-            <a href="#contact" class="btn-brand text-center text-xs justify-center mt-2">
+        <!-- MENIU MOBIL (Animat prin CSS) -->
+        <div id="mobile-menu" class="lg:hidden flex flex-col bg-[#111116] border border-white/20 px-6 rounded-xl space-y-4 shadow-2xl">
+            <a href="#acasa" class="mobile-link text-white font-semibold py-2 border-b border-white/5 text-center">Acasă</a>
+            <a href="#despre" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5 text-center">Echipă & Echipamente</a>
+            <a href="#servicii" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5 text-center">Servicii</a>
+            <a href="#portofoliu" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5 text-center">Munca Noastră</a>
+            <a href="#preturi" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5 text-center">Pachete & Calculator</a>
+            <a href="#contact" class="mobile-link hover:text-white transition-colors py-2 border-b border-white/5 text-center">Contact</a>
+            <a href="#contact" class="mobile-link btn-brand text-center text-xs justify-center mt-2">
                 Solicită Disponibilitate
             </a>
         </div>
@@ -184,7 +185,7 @@
     <section id="servicii" class="py-28 px-6 bg-[#111116]/40 relative border-t border-white/5">
         <div class="max-w-7xl mx-auto">
             <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
-                <span class="text-white text-xs uppercase tracking-widest font-bold">Servicii Offerite</span>
+                <span class="text-white text-xs uppercase tracking-widest font-bold">Servicii Oferite</span>
                 <h2 class="text-3xl md:text-5xl font-black font-syne uppercase">Ce Îți Oferim</h2>
                 <div class="w-12 h-1 bg-white mx-auto"></div>
             </div>
@@ -515,6 +516,7 @@
             <div id="lightbox-caption" class="text-center mt-4 text-sm font-bold font-syne text-white"></div>
         </div>
     </div>
+    <div id="mobile-img-hint">Apasă din nou pentru a mări imaginea</div>
 
     <script src="script.js"></script>
 </body>
